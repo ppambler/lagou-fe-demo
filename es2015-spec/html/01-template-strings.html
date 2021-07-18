@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <title>01-template-strings</title>
+    <style>
+      .todoList {
+        width: 300px;
+        border: 1px solid #b0e2ff;
+        border-radius: 3px;
+      }
+      .userName {
+        padding: 10px 0 10px 10px;
+        background: #b0e2ff;
+      }
+      .date {
+        padding: 5px 0 5px 10px;
+        background: #b0e2ff;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const Frank = {
+        name: "Frank",
+        date: "2021-04-27",
+        todos: [
+          {
+            item: "go to store",
+            completed: false,
+          },
+          {
+            item: "go to store",
+            completed: true,
+          },
+          {
+            item: "go to store",
+            completed: true,
+          },
+        ],
+      };
+      function renderTodos(todos) {
+        return `
+        <ul>
+          ${todos
+            .map(
+              (todo) => `
+              <li>
+                ${todo.item} ${todo.completed ? "√" : "×"}
+              </li>`
+            )
+            .join("")}
+        </ul>
+        `;
+      }
+      const template = `
+        <div class="todoList">
+          <div class="userName">${Frank.name}</div>
+          <div class="list">
+          ${renderTodos(Frank.todos)}
+          </div>
+          <div class="date">${Frank.date}</div>
+        </div>
+      `;
+      document.body.innerHTML = template;
+    </script>
+  </body>
+</html>

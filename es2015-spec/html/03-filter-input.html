@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <title>03-filter-input</title>
+    <style>
+      .comment-text {
+        padding: 10px;
+        width: 350px;
+        height: 150px;
+        border: 1px solid #b0e2ff;
+        border-radius: 3px;
+      }
+      button {
+        display: block;
+        margin: 10px 0 20px;
+        padding: 10px 15px;
+        background: #b0e2ff;
+        border: 1px solid #b0e2ff;
+        border-radius: 3px;
+        color: #333;
+        cursor: pointer;
+      }
+      .userName {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ccc;
+        color: #f08080;
+        font-size: 18px;
+      }
+      .comentCotent {
+        padding: 15px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <form class="add-comment">
+        <textarea class="comment-text"></textarea>
+        <button>Post Comment</button>
+      </form>
+      <div class="comment"></div>
+    </div>
+
+    <script type="text/javascript">
+      const addCommentForm = document.querySelector(".add-comment");
+      const textarea = document.querySelector(".comment-text");
+      const comment = document.querySelector(".comment");
+      const user = "Asher";
+
+      function filter(strings, ...values) {
+        //这里可以写上过滤需求
+        //敏感词过滤
+        let strArray = ["sb", "ghs"];
+        // str = str.replace(/垃圾/g,"**")
+        let res = values[1];
+        strArray.forEach((value) => {
+          // new RegExp('ab+c', 'i');
+          let reg = new RegExp(`${value}`, "g");
+          console.log(reg);
+          let rep = "";
+          let i = 0;
+          while (i < value.length) {
+            rep += "*";
+            i++;
+          }
+          res = res.replace(reg, rep);
+        });
+        console.log(res);
+        return res;
+      }
+      addCommentForm.addEventListener("submit", function (evt) {
+        evt.preventDefault();
+        const newComment = textarea.value.trim();
+        if (newComment) {
+          comment.innerHTML = filter`
+                  <div class="userName">${user}</div>
+                  <div class="comentCotent">${textarea.value}</div>
+              `;
+          textarea.value = "";
+        }
+      });
+    </script>
+  </body>
+</html>

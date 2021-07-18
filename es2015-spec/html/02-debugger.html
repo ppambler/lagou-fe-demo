@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <title>02-debugger</title>
+    <style>
+      .highLight {
+        padding: 2px 5px;
+        background: #b0e2ff;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function highLight(strings, ...values) {
+        const highLighted = values.map(
+          (value) => `<span class="highLight">${value}</span>`
+        );
+
+        let str = "";
+
+        strings.forEach(
+          (string, i) => (str += `${string}${highLighted[i] || ``}`)
+        );
+
+        return str;
+      }
+
+      const user = "Asher";
+      const topic = "Learn to use es6";
+      const sentence = highLight`<p>${user} has commented on your topic ${topic}</p>`;
+      document.body.innerHTML = sentence;
+    </script>
+  </body>
+</html>
+

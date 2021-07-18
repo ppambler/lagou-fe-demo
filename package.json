@@ -1,0 +1,15 @@
+{
+  "name": "lagou-fe-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ppambler/lagou-fe-demo.git",
+  "author": "ppambler <allinlbj@gmail.com>",
+  "scripts": {},
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
