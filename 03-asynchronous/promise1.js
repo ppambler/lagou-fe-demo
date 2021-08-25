@@ -24,6 +24,7 @@ class MyPromise {
       }
     }
     const reject = (reason) => {
+      console.log('执行 reject 方法')
       if (this.status === PENDING) {
         this.status = REJECT;
         this.reason = reason;
@@ -42,6 +43,7 @@ class MyPromise {
 
   }
   then(onFulfilled, onReject) {
+    console.log('then')
     // 实现值穿透 当then中传入的不是函数，则这个promise返回上一个promise的值
     onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
     onReject = typeof onReject === 'function' ? onReject : reason => { throw new Error(reason) }
@@ -132,7 +134,7 @@ class MyPromise {
   static race(promiseArr) {
     return new MyPromise((resolve, reject) => {
       promiseArr.forEach(item => {
-        MyPromise, resolve(item).then(
+        MyPromise.resolve(item).then(
           val => resolve(val),
           err => reject(err)
         )
@@ -140,3 +142,61 @@ class MyPromise {
     })
   }
 }
+
+
+// new MyPromise((xxx,yyy)=>{
+//   setTimeout(() => {
+//     console.log('timer1')
+//     xxx('timer1')
+//   }, 0);
+// }).then((res)=>{
+//   console.log('then1')
+//   setTimeout(() => {
+//     console.log('timer2')
+//   }, 0);
+// }).then((res)=>{
+//   console.log('then2')
+//   setTimeout(() => {
+//     console.log('timer3')
+//   }, 0);
+// }).then((res)=>{
+//   console.log('then3')
+//   setTimeout(() => {
+//     console.log('timer4')
+//   }, 0);
+// })
+// console.log('end')
+
+
+// Promise 异常处理
+
+// function ajax(url) {
+//   return new MyPromise(function (resolve, reject) {
+//     foo()
+//     // throw new Error()
+//     var xhr = new XMLHttpRequest()
+//     xhr.open('GET', url)
+//     xhr.responseType = 'json'
+//     xhr.onload = function () {
+//       if (this.status === 200) {
+//         resolve(this.response)
+//       } else {
+//         reject(new Error(this.statusText))
+//       }
+//     }
+//     xhr.send()
+//   })
+// }
+
+function ajax(url) {
+  return new MyPromise(function (resolve, reject) {
+    throw new Error()
+  })
+}
+ajax('/api/xxx.json').then(function onFulfilled(value) {
+  console.log('onFulfilled', value)
+}, function onRejected(error) {
+  console.log('onRejected', error)
+}).then((s)=>{console.log('success',s)},(e)=>{console.log('error',e)})
+console.log(1)
+

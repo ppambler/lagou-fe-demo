@@ -23,14 +23,15 @@ class MyPromise {
     console.log('声明 resolve/reject 函数')
     const resolve = (value) => {
       console.log('resolve start')
+      console.log('resolve-----this',this)
       if (this.status === PENDING) {
         console.log('更改 promise.then() 这个 promise 的状态和结果')
         this.status = FULFILLED;
         this.value = value;
         // 成功态回调函数依次执行
-        console.log('遍历 fulfilled 成功回调队列，调用 fulfilled 函数……')
+        console.log('遍历 fulfilled 成功回调队列，看看有没有要调用 fulfilled 函数……')
         this.onFulfilledCallbacks.forEach(fn => fn(this.value))
-        console.log(m,'调用 resolve 结束')
+        console.log(m,'没有 fulfilled 函数，调用 resolve 结束')
         m ++;
       }
     }
@@ -63,24 +64,28 @@ class MyPromise {
     // 保存前一个promise的this
     const self = this;
     return new MyPromise((resolve, reject) => {
+      this.abcd = '标识'
       console.log('@@@@@@@ then fn start @@@@@@@')
       // 封装前一个promise成功时执行的函数
       console.log('then 返回了一个 Promise，该 Promise 的函数参数开始同步执行')
       console.log('声明一个 fulfilled 函数')
       let fulfilled = () => {
-        console.log('fulfilled 执行')
+        console.log('有 fulfilled 函数')
+        console.log('1111111111',this)
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$ fulfilled 执行 $$$$$$$$$$$$$$$$$$$$$$$$')
         console.log('调用 then 的第一个参数 onFulfilled，并且把这个 promise 的结果传给该回调函数')
         try {
           const result = onFulfilled(self.value); // 承前
           console.log('拿到 onFulfilled 的返回值 p2')
           console.log('如果 p2 是一个 Promise 实例，那就继续 p2.then()，并把下一个 then 的参数 onFulfilled、onReject 作为 p2.then() 的两个实参')
-          console.log('如果 p2 不是，那就调用下一个 then 的成功回调 onFulfilled')
+          console.log('如果 p2 不是，那就调用 resolve(p2)')
           n ++;
-          return result instanceof MyPromise ? result.then(resolve, reject) : resolve(result); //启后
+          let res = result instanceof MyPromise ? result.then(resolve, reject) : resolve(result); //启后
+          console.log('$$$$$$$$$$$$$$$$$$$$$$$$ fulfilled 调用结束 $$$$$$$$$$$$$$$$$$$$$$$$')
+          return res
         } catch (err) {
           reject(err)
         }
-        console.log('fulfilled 调用结束')
       }
       console.log('声明一个 rejected 函数')
       // 封装前一个promise失败时执行的函数
@@ -196,11 +201,12 @@ const xxx = promise.then((res) => {
   console.log('onFulfilled start')
   console.log(res)
   console.log('我很开心')
+  console.log('这个 then 没有返回 Promise')
   console.log('onFulfilled end')
   console.log('----------then1------------')
 }, (error) => {
   console.log(error)
   console.log('我很失落')
-})
+}).then((res)=>{})
 console.log(xxx)
 console.log('******* 第一轮代码 end *******')
