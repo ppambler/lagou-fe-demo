@@ -18,6 +18,25 @@ function ajax(url) {
   })
 }
 
+ajax('/api/users.json')
+  .then((s) => {
+    return ajax('/api/urls.json')
+      .then((s) => { 
+        console.log(s) 
+        return 'hi'
+      })
+  })
+  .then((s) => { console.log('xxx', s) })
+
+
+
+
+
+
+
+
+  
+
 // Promise.resolve('foo')
 //   .then(function (value) {
 //     console.log(value)
@@ -62,12 +81,12 @@ function ajax(url) {
 
 // Promise.reject 传入任何值，都会作为这个 Promise 失败的理由
 
-Promise.reject(new Error('rejected'))
-  .catch(function (error) {
-    console.log(error)
-  })
+// Promise.reject(new Error('rejected'))
+//   .catch(function (error) {
+//     console.log(error)
+//   })
 
-Promise.reject('anything')
-  .catch(function (error) {
-    console.log(error)
-  })
+// Promise.reject('anything')
+//   .catch(function (error) {
+//     console.log(error)
+//   })
